@@ -14,9 +14,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	/** Serialização Cíclica
+	 * 
+	 * Aqui tem um problema de serialização cíclica, onde a jvm tenta serializar o cliente e o endereço e entra em um tipo 'loop' eterno que gera erro.
+	 * Como no relacionamento entre essas duas tabelas é de n/n o cliente conhece seu endereço e o endereço acessa o seu cliente, então isso é o que gera
+	 *  essa serialização cíclica. Entre cliente e telefones não existe, pois segundo a modelagem do diagrama esse é um relacionamento simples.
+	 *  Usamos o @JsonManagedReference  em cliente para nos proteger quanto a serialização cíclica e aí no endereço usamos no atributo 'cliente' o 
+	 *   @JsonBackReference e dessa maneira nos protegemos quanto a esse problema.
+	 *   
+	 * Exemplo de erro no Postman: Quando se faz uma requisição get passando o id de cliente ele retorna: Expected ',' instead of 't'
+	 * 
+	 * Durante a aula após essa pesquisa acima deu erro de serialização cíclica, pois segundo o diagrama <endereco tem relacionamento entre cidade-estado> e 
+	 *  isso gerou o erro. Então temos que proteger cidade e estado.
+	 *  Então vai ficar assim: cliente serializa o endereco, mas o endereco não serializa o cliente. Desta forma entre cidade e estado vamos deixar a cidade
+	 *   serializar o estado dela, mas não vamos deixar o estado serializar o estado.
+	 *  
+	 * 
+	 */
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,6 +46,7 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipoCliente;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
