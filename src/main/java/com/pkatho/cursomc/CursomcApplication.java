@@ -13,7 +13,7 @@ import com.pkatho.cursomc.domain.Cliente;
 import com.pkatho.cursomc.domain.Endereco;
 import com.pkatho.cursomc.domain.Estado;
 import com.pkatho.cursomc.domain.Produto;
-import com.pkatho.cursomc.domain.TipoCliente;
+import com.pkatho.cursomc.domain.enuns.TipoCliente;
 import com.pkatho.cursomc.repository.CategoriaRepository;
 import com.pkatho.cursomc.repository.CidadeRepository;
 import com.pkatho.cursomc.repository.ClienteRepository;
