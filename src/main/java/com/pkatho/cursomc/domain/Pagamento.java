@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
@@ -11,13 +13,15 @@ import javax.persistence.OneToOne;
 import com.pkatho.cursomc.domain.enuns.EstadoPagamento;
 
 @Entity
-public class Pagamento implements Serializable {
+//nas subclasses só precisa, pra esse caso colocar o @Entity que já esta mapeado a herança
+@Inheritance(strategy = InheritanceType.JOINED)//vai criar 2 tabelas (para esse caso) só que uma vai ficar com valor nulo (tabelas pagamento cartao/boleto) uma delas sempre fica com valor null, mas são inseridas as duas na base
+public abstract class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private Integer id;
-	private EstadoPagamento pagamento;
+	private Integer estado;
 	
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
@@ -28,10 +32,10 @@ public class Pagamento implements Serializable {
 		
 	}
 
-	public Pagamento(Integer id, EstadoPagamento pagamento, Pedido pedido) {
+	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.pagamento = pagamento;
+		this.estado = estado.getCod();
 		this.pedido = pedido;
 	}
 
@@ -43,12 +47,12 @@ public class Pagamento implements Serializable {
 		this.id = id;
 	}
 
-	public EstadoPagamento getPagamento() {
-		return pagamento;
+	public EstadoPagamento getEstado() {
+		return EstadoPagamento.toEnum(estado);
 	}
 
-	public void setPagamento(EstadoPagamento pagamento) {
-		this.pagamento = pagamento;
+	public void setEstado(EstadoPagamento estado) {
+		this.estado = estado.getCod();
 	}
 
 	public Pedido getPedido() {

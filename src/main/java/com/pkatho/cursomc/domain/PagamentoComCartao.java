@@ -2,8 +2,11 @@ package com.pkatho.cursomc.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+
 import com.pkatho.cursomc.domain.enuns.EstadoPagamento;
 
+@Entity
 public class PagamentoComCartao extends Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
