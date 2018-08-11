@@ -1,7 +1,7 @@
 package com.pkatho.cursomc.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Pedido implements Serializable {
 
@@ -20,7 +22,9 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private Date instante;
+	
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	private LocalDateTime instante;
 	
 	//pagamento tera o mesmo Id de pedido
 	//cascade All é para não dar erro (peculiaridade JPA, e mappedBy é para informar quem o cara que mapeou do outro lado esse campo
@@ -39,7 +43,7 @@ public class Pedido implements Serializable {
 		
 	}
 
-	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
+	public Pedido(Integer id, LocalDateTime instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
 		this.instante = instante;
@@ -55,11 +59,11 @@ public class Pedido implements Serializable {
 		this.id = id;
 	}
 
-	public Date getInstante() {
+	public LocalDateTime getInstante() {
 		return instante;
 	}
 
-	public void setInstante(Date instante) {
+	public void setInstante(LocalDateTime instante) {
 		this.instante = instante;
 	}
 
