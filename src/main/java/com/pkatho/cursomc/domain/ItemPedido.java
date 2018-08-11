@@ -2,9 +2,14 @@ package com.pkatho.cursomc.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+@Entity
 public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@EmbeddedId//essa assinatura informa que esse Id é embutido de outra classe para ser uma chave composta (Pedido/Produto em ItemPedidoPK)
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
 	private Double desconto;
