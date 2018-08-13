@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable {
@@ -32,10 +33,12 @@ public class Pedido implements Serializable {
 	//pagamento tera o mesmo Id de pedido
 	//cascade All é para não dar erro (peculiaridade JPA, e mappedBy é para informar quem o cara que mapeou do outro lado esse campo
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
+	@JsonManagedReference
 	private Pagamento pagamento;
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
+	@JsonManagedReference
 	private Cliente cliente;
 	
 	@ManyToOne
