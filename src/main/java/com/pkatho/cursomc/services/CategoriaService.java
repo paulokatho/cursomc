@@ -3,10 +3,12 @@ package com.pkatho.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.pkatho.cursomc.domain.Categoria;
 import com.pkatho.cursomc.repository.CategoriaRepository;
+import com.pkatho.cursomc.services.exceptions.DataIntegrityException;
 import com.pkatho.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -30,5 +32,14 @@ public class CategoriaService {
 		
 		find(obj.getId());
 		return repo.save(obj);
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);			
+		}catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produto já cadastrado!");
+		}
 	}
 }
