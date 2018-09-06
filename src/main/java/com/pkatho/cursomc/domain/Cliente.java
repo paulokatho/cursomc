@@ -45,7 +45,7 @@ public class Cliente implements Serializable {
 	private String nome;
 	private String email;
 	private String cpfOuCnpj;
-	private Integer tipoCliente;
+	private Integer tipo;
 	
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -63,13 +63,13 @@ public class Cliente implements Serializable {
 		
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipoCliente = tipoCliente.getCod();
+		this.tipo = (tipo==null)  ? null : tipo.getCod();
 	}
 
 	public Integer getId() {
@@ -105,11 +105,11 @@ public class Cliente implements Serializable {
 	}
 
 	public TipoCliente getTipoCliente() {
-		return TipoCliente.toEnum(tipoCliente);
+		return TipoCliente.toEnum(tipo);
 	}
 
 	public void setTipoCliente(TipoCliente tipoCliente) {
-		this.tipoCliente = tipoCliente.getCod();
+		this.tipo = tipoCliente.getCod();
 	}
 
 	public List<Endereco> getEnderecos() {
