@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.pkatho.cursomc.domain.Cliente;
 import com.pkatho.cursomc.dto.ClienteDTO;
+import com.pkatho.cursomc.dto.ClienteNewDTO;
 import com.pkatho.cursomc.services.ClienteService;
 
 @RestController
@@ -37,18 +38,18 @@ public class ClienteResource {
 			return ResponseEntity.ok().body(obj);		
 		}
 		
-		/*@RequestMapping(method=RequestMethod.POST)
-		public ResponseEntity<Void> insert(@Valid ClienteDTO objDto) {
+		@RequestMapping(method=RequestMethod.POST)
+		public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 			
 			Cliente obj = service.fromDTO(objDto);
-			
 			obj = service.insert(obj);
+			
 			//esse cara abaixo retorno a uri do recurso novo que foi criado - seção 3, aula 31 curso ionic 
 			URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 						.path("/{id}").buildAndExpand(obj.getId()).toUri();
 			
 			return ResponseEntity.created(uri).build();		
-		}*/
+		}
 		
 		@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 		public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
